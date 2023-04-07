@@ -15,9 +15,19 @@ namespace SchoolSessionWPF.ADOApp
     
     public partial class SessionOneEntities : DbContext
     {
+        private static SessionOneEntities _context;
+
         public SessionOneEntities()
             : base("name=SessionOneEntities")
         {
+        }
+
+        public static SessionOneEntities GetContext()
+        {
+            if (_context == null)
+                _context = new SessionOneEntities();
+
+            return _context;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
