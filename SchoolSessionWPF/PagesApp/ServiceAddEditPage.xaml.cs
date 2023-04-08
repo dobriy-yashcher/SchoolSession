@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SchoolSessionWPF.ADOApp;
+using SchoolSessionWPF.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,30 @@ namespace SchoolSessionWPF.PagesApp
     /// </summary>
     public partial class ServiceAddEditPage : Page
     {
-        public ServiceAddEditPage()
+        private static Service _currentService = new Service();
+
+        private bool _isEdit;
+
+        public ServiceAddEditPage(Service selectedService)
         {
             InitializeComponent();
+
+            if (selectedService != null)
+            {
+                _currentService = selectedService;
+
+                //GridID.Visibility = Visibility.Visible;
+                //GridID.IsEnabled = false;
+            }
+            else GridID.Visibility = Visibility.Collapsed;
+
+
+            DataContext = _currentService;
+        }
+
+        public static Service GetCurrentService()
+        {
+            return _currentService;
         }
     }
 }

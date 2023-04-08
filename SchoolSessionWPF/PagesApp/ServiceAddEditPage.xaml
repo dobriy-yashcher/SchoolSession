@@ -9,6 +9,53 @@
       Title="ServiceAddEditPage">
 
     <Grid>
-        <TextBlock Text="Add/Edit Page"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Name fields-->
+        <TextBlock Text="Название услуги"/>
+        <TextBlock Text="Стоимость" Grid.Row="1"/>
+        <TextBlock Text="Длительность" Grid.Row="2"/>
+        <TextBlock Text="Описание" Grid.Row="3"/>
+        <TextBlock Text="Скидка" Grid.Row="4"/>
+        <TextBlock Text="Изображение" Grid.Row="5"/>
+        
+        <!--Input fields-->
+        <TextBox x:Name="TbTitle" Grid.Column="1" MaxLength="100"
+                 Text="{Binding Title}"/>
+        <TextBox x:Name="TbCost" Grid.Row="1" Grid.Column="1"
+                 Text="{Binding Cost}"/>
+        <TextBox x:Name="TbDuration" Grid.Row="2" Grid.Column="1"
+                 Text="{Binding DurationInSeconds}"/>
+        <TextBox x:Name="TbDescription" Grid.Row="3" Grid.Column="1"
+                 VerticalAlignment="Stretch" Height="auto" 
+                 TextWrapping="Wrap" AcceptsReturn="True"
+                 SpellCheck.IsEnabled="True" Language="ru-ru"
+                 VerticalScrollBarVisibility="Auto"
+                 VerticalContentAlignment="Top"
+                 Text="{Binding Description}"/>
+        <TextBox x:Name="TbDiscount" Grid.Row="4" Grid.Column="1"
+                 Text="{Binding Discount}"/>
+        <TextBox x:Name="TbMainImagePath" Grid.Row="5" Grid.Column="1" 
+                 MaxLength="100" Text="{Binding MainImagePath}"/>
+
+        <Grid Grid.Column="2" Name="GridID">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                        Margin="0 0 10 0">
+                <TextBlock Text="ID" Margin="5"/>
+                <TextBox x:Name="TbID" Height="30" Width="30" IsEnabled="False"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

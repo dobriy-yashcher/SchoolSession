@@ -9,6 +9,92 @@
       Title="ServicesPage">
 
     <Grid>
-        <Button Content="Add/Edit" Click="Button_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" 
+                    HorizontalAlignment="Left" Margin="5">
+            <StackPanel Orientation="Horizontal" Width="auto">
+                <TextBlock Text="Сортировка" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cbSorting" Width="250"
+                          SelectionChanged="cbSorting_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Фильтрация" VerticalAlignment="Center"/>
+                <ComboBox x:Name="cbFiltering" Width="200"
+                          SelectionChanged="cbFiltering_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Поиск" VerticalAlignment="Center"/>
+                <TextBox x:Name="tbSearchBar" Width="200" 
+                         VerticalContentAlignment="Center" 
+                         TextChanged="tbSearchBar_TextChanged"/>
+            </StackPanel>
+        </StackPanel>
+        <ListView x:Name="lvServices" Grid.Row="1" 
+                  d:ItemsSource="{d:SampleData ItemCount=5}" 
+                  HorizontalContentAlignment="Stretch">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Margin" Value="3"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Grid.Row="1" 
+                               Source="{Binding ImagePath}" 
+                               Width="200" Height="200"/>
+                        <StackPanel Orientation="Vertical" 
+                                    HorizontalAlignment="Stretch" 
+                                    Grid.Column="1" Grid.Row="1" 
+                                    VerticalAlignment="Top">
+                            <TextBlock Text="{Binding Title}" 
+                                       HorizontalAlignment="Left"/>
+                            <StackPanel HorizontalAlignment="Left">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock TextDecorations="Strikethrough" 
+                                               Text="{Binding Cost}" 
+                                               Visibility="{Binding IsHaveDiscount}"/>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0:F0} рублей за {1}">
+                                                <Binding Path="CostWithDiscount" />
+                                                <Binding Path="DurationInMinutes" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+
+                                <TextBlock Text="{Binding DiscountDisplay}"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" Margin="0 0 0 8">
+                            <Button Visibility="{Binding AdminVisibility}" Content="Редактировать" Margin="0 0 5 0"/>
+                            <Button Visibility="{Binding AdminVisibility}" Content="Удалить" Margin="5 0 0 0"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>

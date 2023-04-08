@@ -1,4 +1,5 @@
-﻿using SchoolSessionWPF.Core;
+﻿using SchoolSessionWPF.ADOApp;
+using SchoolSessionWPF.Core;
 using SchoolSessionWPF.PagesApp;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,51 @@ namespace SchoolSessionWPF
         {
             if (Manager.MainFrame.CanGoBack) BtnBack.Visibility = Visibility.Visible;
             else BtnBack.Visibility = Visibility.Collapsed;
+
+            if (Manager.MainFrame.Content is ServiceAddEditPage) BtnSave.Visibility = Visibility.Visible;
+            else BtnSave.Visibility = Visibility.Collapsed;
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            var service = ServiceAddEditPage.GetCurrentService();
+            StringBuilder errors = new StringBuilder();
+
+            if (string.IsNullOrWhiteSpace(service.Title))
+                errors.AppendLine("Введите название услуги");
+            if (service.Cost == null)
+                errors.AppendLine("Укажите стоимость");
+            if (service.DurationInSeconds == null)
+                errors.AppendLine("Укажите длительность услуги");
+
+            if (errors.Length > 0)
+            {
+                MessageBox.Show(errors.ToString());
+                return;
+            }
+
+            if (service.ID == 0)
+                SessionOneEntities.GetContext().Service.Add(service);
+
+            try
+            {
+                SessionOneEntities.GetContext().SaveChanges();
+                MessageBox.Show("Информация сохранена!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
+        }
+
+        private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            this.Visibility = Visibility.Visible;
+
+            if (Visibility == Visibility.Visible)
+            {
+                tbRecordsCount.Text = $"{Manager.FindRecordsCount} из {Manager.AllRecordsCount}";
+            }
         }
     }
 }

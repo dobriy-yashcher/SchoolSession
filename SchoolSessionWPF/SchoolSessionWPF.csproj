@@ -147,7 +147,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\FilterMethods.cs" />
     <Compile Include="Core\Manager.cs" />
+    <Compile Include="Core\SortingMethods.cs" />
     <Compile Include="PagesApp\ServiceAddEditPage.xaml.cs">
       <DependentUpon>ServiceAddEditPage.xaml</DependentUpon>
     </Compile>
