@@ -5,8 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SchoolSessionWPF"
         mc:Ignorable="d"
-        Title="Learn" Height="450" Width="800">
+        Title="Learn" MinHeight="450" MinWidth="800"
+        Height="450" Width="800">
     <Grid>
-        <Button Content="Comic Sans MS"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions> 
+        
+        <Grid Grid.Row="0" Background="#e7fabf" Panel.ZIndex="-1">
+            <Image Source="/Resources/school_logo.png"/>
+            <TextBlock Text="Школа языков Леарн"/>
+        </Grid>
+
+        <Grid Grid.Row="2" Background="#04a0ff">
+            
+        </Grid>
     </Grid>
 </Window>
