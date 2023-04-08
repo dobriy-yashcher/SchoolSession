@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SchoolSessionWPF.Core;
+using SchoolSessionWPF.PagesApp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,19 @@ namespace SchoolSessionWPF
         public MainWindow()
         {
             InitializeComponent();
+            MainFrame.Navigate(new ServicesPage());
+            Manager.MainFrame = MainFrame;
+        }
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.GoBack();
+        }
+
+        private void MainFrame_ContentRendered(object sender, EventArgs e)
+        {
+            if (Manager.MainFrame.CanGoBack) BtnBack.Visibility = Visibility.Visible;
+            else BtnBack.Visibility = Visibility.Collapsed;
         }
     }
 }
