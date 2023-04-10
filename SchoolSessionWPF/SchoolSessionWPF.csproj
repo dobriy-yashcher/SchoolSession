@@ -119,6 +119,7 @@
     <Compile Include="ADOApp\DocumentByService.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ADOApp\Extensions\Service.cs" />
     <Compile Include="ADOApp\Gender.cs">
       <DependentUpon>DbModel.tt</DependentUpon>
     </Compile>
@@ -221,6 +222,23 @@
       <DependentUpon>DbModel.edmx</DependentUpon>
       <LastGenOutput>DbModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="Услуги школы\for company.jpg" />
+    <Resource Include="Услуги школы\online lessons.jpg" />
+    <Resource Include="Услуги школы\Английский язык.jpg" />
+    <Resource Include="Услуги школы\Испанский язык.jpg" />
+    <Resource Include="Услуги школы\Итальянский язык.jpg" />
+    <Resource Include="Услуги школы\киноклуб.jpg" />
+    <Resource Include="Услуги школы\Китайский язык.jpg" />
+    <Resource Include="Услуги школы\Немецкий язык.png" />
+    <Resource Include="Услуги школы\Подготовка к экзамену ACT.png" />
+    <Resource Include="Услуги школы\Подготовка к экзамену GMAT.png" />
+    <Resource Include="Услуги школы\Подготовка к экзамену GRE.jpeg" />
+    <Resource Include="Услуги школы\Подготовка к экзамену IELTS.jpg" />
+    <Resource Include="Услуги школы\Подготовка к экзамену SAT.png" />
+    <Resource Include="Услуги школы\Подготовка к экзамену TOEFL.jpg" />
+    <Resource Include="Услуги школы\Португальский язык.jpg" />
+    <Resource Include="Услуги школы\Французский язык.jpg" />
+    <Resource Include="Услуги школы\Японский язык.jpg" />
     <Resource Include="Resources\school_logo.png" />
   </ItemGroup>
   <ItemGroup>

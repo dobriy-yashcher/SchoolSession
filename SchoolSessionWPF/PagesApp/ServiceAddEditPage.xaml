@@ -54,7 +54,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
                         Margin="0 0 10 0">
                 <TextBlock Text="ID" Margin="5"/>
-                <TextBox x:Name="TbID" Height="30" Width="30" IsEnabled="False"/>
+                <TextBox x:Name="TbID" Height="30" Width="30" IsEnabled="False"
+                         HorizontalContentAlignment="Center" Text="{Binding ID}"/>
             </StackPanel>
         </Grid>
     </Grid>

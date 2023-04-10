@@ -30,15 +30,20 @@ namespace SchoolSessionWPF
             Manager.MainFrame = MainFrame;
         }
 
-        private void BtnBack_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.MainFrame.GoBack();
-        }
-
         private void MainFrame_ContentRendered(object sender, EventArgs e)
         {
-            if (Manager.MainFrame.CanGoBack) BtnBack.Visibility = Visibility.Visible;
-            else BtnBack.Visibility = Visibility.Collapsed;
+            if (Manager.MainFrame.CanGoBack)
+            {
+                BtnBack.Visibility = Visibility.Visible;
+                BtnAddService.Visibility = Visibility.Collapsed;
+                tbRecordsCount.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                BtnBack.Visibility = Visibility.Collapsed;
+                BtnAddService.Visibility = Visibility.Visible;
+                tbRecordsCount.Visibility= Visibility.Visible;
+            }
 
             if (Manager.MainFrame.Content is ServiceAddEditPage) BtnSave.Visibility = Visibility.Visible;
             else BtnSave.Visibility = Visibility.Collapsed;
@@ -77,13 +82,21 @@ namespace SchoolSessionWPF
         }
 
         private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            this.Visibility = Visibility.Visible;
-
+        {                                            
             if (Visibility == Visibility.Visible)
             {
                 tbRecordsCount.Text = $"{Manager.FindRecordsCount} из {Manager.AllRecordsCount}";
             }
+        }
+
+        private void BtnBack_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.GoBack();
+        }
+
+        private void BtnAddService_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new ServiceAddEditPage(null));
         }
     }
 }

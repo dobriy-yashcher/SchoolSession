@@ -133,5 +133,28 @@ namespace SchoolSessionWPF.PagesApp
         {
             Manager.MainFrame.Navigate(new ServiceAddEditPage(new Service()));
         }
+
+        private void BtnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            var service = (sender as Button).DataContext as Service;
+            //var deleteService = SessionOneEntities.GetContext().Service.FirstOrDefault(x => x.ID == service.ID);
+
+            SessionOneEntities.GetContext().Service.Remove(service);
+
+            try
+            {
+                SessionOneEntities.GetContext().SaveChanges();
+                MessageBox.Show("Информация сохранена!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message.ToString());
+            }
+        }
+
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new ServiceAddEditPage((sender as Button).DataContext as Service));
+        }
     }
 }

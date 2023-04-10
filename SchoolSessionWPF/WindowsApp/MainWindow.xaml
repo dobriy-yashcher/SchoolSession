@@ -26,6 +26,9 @@
         <Grid Grid.Row="2" Background="#04a0ff">
             <Button x:Name="BtnBack" HorizontalAlignment="Left" 
                     Content="Назад" Click="BtnBack_Click"/>
+            <Button x:Name="BtnAddService" HorizontalAlignment="Left" 
+                    Content="Добавить" Click="BtnAddService_Click"
+                    Visibility="{Binding IsAdminMode}"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
                         Margin="0 0 5 0">

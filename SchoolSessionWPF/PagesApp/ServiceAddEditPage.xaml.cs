@@ -34,8 +34,8 @@ namespace SchoolSessionWPF.PagesApp
             {
                 _currentService = selectedService;
 
-                //GridID.Visibility = Visibility.Visible;
-                //GridID.IsEnabled = false;
+                GridID.Visibility = Visibility.Visible;
+                GridID.IsEnabled = false;
             }
             else GridID.Visibility = Visibility.Collapsed;
 
