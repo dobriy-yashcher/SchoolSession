@@ -44,14 +44,14 @@
                          TextChanged="tbSearchBar_TextChanged"/>
             </StackPanel>
         </StackPanel>
-        <ListView x:Name="lvServices" Grid.Row="1" 
+        <ListView x:Name="lvServices" Grid.Row="1"
                   d:ItemsSource="{d:SampleData ItemCount=5}" 
                   HorizontalContentAlignment="Stretch">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="BorderBrush" Value="Black"/>
                     <Setter Property="BorderThickness" Value="1"/>
-                    <Setter Property="Margin" Value="3"/>
+                    <Setter Property="Margin" Value="5"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
@@ -62,10 +62,10 @@
                             <ColumnDefinition Width="5*"/>
                         </Grid.ColumnDefinitions>
                         <Image Grid.Column="0" Grid.Row="1" 
+                               Stretch="UniformToFill"
                                Source="{Binding ImagePath}" 
                                Width="200" Height="200"/>
                         <StackPanel Orientation="Vertical" 
-                                    HorizontalAlignment="Stretch" 
                                     Grid.Column="1" Grid.Row="1" 
                                     VerticalAlignment="Top">
                             <TextBlock Text="{Binding Title}" 

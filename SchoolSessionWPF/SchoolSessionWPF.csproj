@@ -192,6 +192,8 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resources\picture.webp" />
+    <None Include="Resources\placeholder-conversion-original-720Wx540H-retina.webp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -222,6 +224,9 @@
       <DependentUpon>DbModel.edmx</DependentUpon>
       <LastGenOutput>DbModel.cs</LastGenOutput>
     </Content>
+    <None Include="Resources\shop.png" />
+    <None Include="Resources\picture.png" />
+    <None Include="Resources\picture.bmp" />
     <Resource Include="Услуги школы\for company.jpg" />
     <Resource Include="Услуги школы\online lessons.jpg" />
     <Resource Include="Услуги школы\Английский язык.jpg" />

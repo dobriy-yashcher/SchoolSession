@@ -23,7 +23,6 @@ namespace SchoolSessionWPF.PagesApp
     public partial class ServiceAddEditPage : Page
     {
         private static Service _currentService = new Service();
-
         private bool _isEdit;
 
         public ServiceAddEditPage(Service selectedService)
@@ -31,21 +30,32 @@ namespace SchoolSessionWPF.PagesApp
             InitializeComponent();
 
             if (selectedService != null)
-            {
-                _currentService = selectedService;
+                _isEdit = true;
+            else selectedService = new Service();
 
-                GridID.Visibility = Visibility.Visible;
-                GridID.IsEnabled = false;
-            }
-            else GridID.Visibility = Visibility.Collapsed;
+            SetIdState();
 
-
+            _currentService = selectedService;
             DataContext = _currentService;
         }
 
         public static Service GetCurrentService()
         {
             return _currentService;
+        }
+
+        private void SetIdState()
+        {
+            if (_isEdit)
+            {
+                GridID.Visibility = Visibility.Visible;
+                GridID.IsEnabled = false;
+            }
+            else
+            {
+                GridID.Visibility = Visibility.Collapsed;
+                GridID.IsEnabled = true;
+            }
         }
     }
 }

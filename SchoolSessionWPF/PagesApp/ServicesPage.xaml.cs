@@ -31,7 +31,11 @@ namespace SchoolSessionWPF.PagesApp
         public ServicesPage()
         {
             InitializeComponent();
+            PageLoaded();
+        }
 
+        private void PageLoaded()
+        {
             _services = SessionOneEntities.GetContext().Service.ToList();
             lvServices.ItemsSource = _services;
 
@@ -46,15 +50,21 @@ namespace SchoolSessionWPF.PagesApp
             SortingMethodChange();
         }
 
+        private void cbFiltering_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            FilterMethodChange();
+        }
+
         private void tbSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             Search();
         }
 
         private void FilterAndSort()
-        {
+        {                        
             _sorted = _services.Where(x => _filterQuery(x)).OrderBy(x => _sortQuery(x)).ToList();
             lvServices.ItemsSource = _sorted;
+
             if (tbSearchBar.Text != "") Search();
 
             UpdateRecordsCount();
@@ -62,13 +72,15 @@ namespace SchoolSessionWPF.PagesApp
 
         private void Search()
         {
-            if (tbSearchBar.Text == "0000") Manager.IsAdminMode = true;
+            if (tbSearchBar.Text == "0000") Manager.IsAdminMode = !Manager.IsAdminMode;
 
             lvServices.ItemsSource = _sorted
                 .Where(x => string.Join(" ", x.Title, x.Description).ToLower()
                 .Contains(tbSearchBar.Text.ToLower()))
                 .ToList();
             UpdateRecordsCount();
+
+            Manager.MainFrame.Refresh();
         }
 
         private void SortingMethodChange()
@@ -79,10 +91,10 @@ namespace SchoolSessionWPF.PagesApp
                     _sortQuery = x => x.ID;
                     break;
                 case 1:
-                    _sortQuery = x => x.Cost - (decimal)((double)x.Cost * (x.Discount / 100));
+                    _sortQuery = x => x.CostWithDiscount;
                     break;
                 case 2:
-                    _sortQuery = x => - (x.Cost - (decimal)((double)x.Cost * (x.Discount / 100)));
+                    _sortQuery = x => -x.CostWithDiscount;
                     break;
             }
 
@@ -124,37 +136,38 @@ namespace SchoolSessionWPF.PagesApp
             Manager.FindRecordsCount = lvServices.Items.Count;
         }
 
-        private void cbFiltering_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            FilterMethodChange();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.MainFrame.Navigate(new ServiceAddEditPage(new Service()));
-        }
-
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var service = (sender as Button).DataContext as Service;
-            //var deleteService = SessionOneEntities.GetContext().Service.FirstOrDefault(x => x.ID == service.ID);
+            var serviceRemoving = (sender as Button).DataContext as Service;
 
-            SessionOneEntities.GetContext().Service.Remove(service);
+            if (MessageBox.Show("Вы точно хотите удалить данную услугу?",
+                "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    SessionOneEntities.GetContext().Service.Remove(serviceRemoving);
+                    SessionOneEntities.GetContext().SaveChanges();
+                    MessageBox.Show("Данные удалены!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            try
-            {
-                SessionOneEntities.GetContext().SaveChanges();
-                MessageBox.Show("Информация сохранена!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
-            }
+                    UpdateSource();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }               
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new ServiceAddEditPage((sender as Button).DataContext as Service));
+        }
+
+        private void UpdateSource()
+        {
+            _services = SessionOneEntities.GetContext().Service.ToList();
+            lvServices.ItemsSource = _services;
+            FilterAndSort();
         }
     }
 }

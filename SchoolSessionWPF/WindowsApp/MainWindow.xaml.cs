@@ -27,26 +27,35 @@ namespace SchoolSessionWPF
         {
             InitializeComponent();
             MainFrame.Navigate(new ServicesPage());
+
             Manager.MainFrame = MainFrame;
         }
 
         private void MainFrame_ContentRendered(object sender, EventArgs e)
+        {                        
+            SetStateNavButtons();
+
+            tbRecordsCount.Text = $"{Manager.FindRecordsCount} из {Manager.AllRecordsCount}";
+        }
+
+        private void SetStateNavButtons()
         {
             if (Manager.MainFrame.CanGoBack)
             {
                 BtnBack.Visibility = Visibility.Visible;
-                BtnAddService.Visibility = Visibility.Collapsed;
                 tbRecordsCount.Visibility = Visibility.Collapsed;
             }
             else
             {
                 BtnBack.Visibility = Visibility.Collapsed;
-                BtnAddService.Visibility = Visibility.Visible;
-                tbRecordsCount.Visibility= Visibility.Visible;
+                tbRecordsCount.Visibility = Visibility.Visible;
             }
 
             if (Manager.MainFrame.Content is ServiceAddEditPage) BtnSave.Visibility = Visibility.Visible;
             else BtnSave.Visibility = Visibility.Collapsed;
+
+            if (!Manager.IsAdminMode || Manager.MainFrame.CanGoBack) BtnAddService.Visibility = Visibility.Collapsed; 
+            else BtnAddService.Visibility = Visibility.Visible;
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
@@ -54,38 +63,37 @@ namespace SchoolSessionWPF
             var service = ServiceAddEditPage.GetCurrentService();
             StringBuilder errors = new StringBuilder();
 
+            // Проверка данных
             if (string.IsNullOrWhiteSpace(service.Title))
                 errors.AppendLine("Введите название услуги");
-            if (service.Cost == null)
+            if (service.Cost <= 0)
                 errors.AppendLine("Укажите стоимость");
-            if (service.DurationInSeconds == null)
-                errors.AppendLine("Укажите длительность услуги");
+            if (service.DurationInSeconds <= 0)
+                errors.AppendLine("Укажите длительность услуги");    
+            if (service.Discount < 0)
+                errors.AppendLine("Скидка не может принимать отрицательное значение");  
+            if (service.Discount > 100)
+                errors.AppendLine("Скидка не может принимать значение больше 100");
+
 
             if (errors.Length > 0)
             {
-                MessageBox.Show(errors.ToString());
+                MessageBox.Show(errors.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
+            // Определение текущей операции (добавление/редактирование)
             if (service.ID == 0)
                 SessionOneEntities.GetContext().Service.Add(service);
 
             try
             {
-                SessionOneEntities.GetContext().SaveChanges();
-                MessageBox.Show("Информация сохранена!");
+                SessionOneEntities.GetContext().SaveChanges();                                                             
+                MessageBox.Show("Информация сохранена!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message.ToString());
-            }
-        }
-
-        private void Window_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {                                            
-            if (Visibility == Visibility.Visible)
-            {
-                tbRecordsCount.Text = $"{Manager.FindRecordsCount} из {Manager.AllRecordsCount}";
+                MessageBox.Show(ex.Message.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

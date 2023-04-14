@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SchoolSessionWPF"
         mc:Ignorable="d"
-        Title="Learn" MinHeight="450" MinWidth="980" IsVisibleChanged="Window_IsVisibleChanged">
+        Title="Learn" MinHeight="450" MinWidth="980">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="75"/>
@@ -28,7 +28,7 @@
                     Content="Назад" Click="BtnBack_Click"/>
             <Button x:Name="BtnAddService" HorizontalAlignment="Left" 
                     Content="Добавить" Click="BtnAddService_Click"
-                    Visibility="{Binding IsAdminMode}"/>
+                    Visibility="{Binding Manager.AdminVisibility}"/>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" 
                         Margin="0 0 5 0">
