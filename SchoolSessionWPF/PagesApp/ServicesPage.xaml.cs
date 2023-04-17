@@ -32,6 +32,8 @@ namespace SchoolSessionWPF.PagesApp
         {
             InitializeComponent();
             PageLoaded();
+
+            FilterAndSort();
         }
 
         private void PageLoaded()
@@ -42,45 +44,47 @@ namespace SchoolSessionWPF.PagesApp
             cbSorting.ItemsSource = SortingMethods.Methods;
             cbFiltering.ItemsSource = FilterMethods.Methods;
             cbSorting.SelectedIndex = 0;
-            cbFiltering.SelectedIndex = 0;
+            cbFiltering.SelectedIndex = 0;    
         }
 
         private void cbSorting_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SortingMethodChange();
+            FilterAndSort();           
         }
 
         private void cbFiltering_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            FilterMethodChange();
+            FilterAndSort();          
         }
 
         private void tbSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            Search();
+            FilterAndSort();    
         }
 
         private void FilterAndSort()
-        {                        
+        {                   
+            FilterMethodChange();
+            SortingMethodChange();
+
             _sorted = _services.Where(x => _filterQuery(x)).OrderBy(x => _sortQuery(x)).ToList();
+
+            Search();    
+            
             lvServices.ItemsSource = _sorted;
-
-            if (tbSearchBar.Text != "") Search();
-
             UpdateRecordsCount();
+
+            Manager.MainFrame.Refresh();
         }
 
         private void Search()
         {
             if (tbSearchBar.Text == "0000") Manager.IsAdminMode = !Manager.IsAdminMode;
 
-            lvServices.ItemsSource = _sorted
+            _sorted = _sorted
                 .Where(x => string.Join(" ", x.Title, x.Description).ToLower()
                 .Contains(tbSearchBar.Text.ToLower()))
-                .ToList();
-            UpdateRecordsCount();
-
-            Manager.MainFrame.Refresh();
+                .ToList();                 
         }
 
         private void SortingMethodChange()
@@ -96,9 +100,7 @@ namespace SchoolSessionWPF.PagesApp
                 case 2:
                     _sortQuery = x => -x.CostWithDiscount;
                     break;
-            }
-
-            FilterAndSort();
+            }                       
         }
 
         private void FilterMethodChange()
@@ -126,13 +128,12 @@ namespace SchoolSessionWPF.PagesApp
                 default:
                     _filterQuery = x => true;
                     break;
-            }
-            FilterAndSort();
+            }                     
         }
 
         private void UpdateRecordsCount()
         {
-            Manager.AllRecordsCount = _services.Count();
+            Manager.AllRecordsCount = _services.Count;
             Manager.FindRecordsCount = lvServices.Items.Count;
         }
 
@@ -170,10 +171,10 @@ namespace SchoolSessionWPF.PagesApp
             FilterAndSort();
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            UpdateSource();
-            //lvServices.ItemsSource = SessionOneEntities.GetContext().Service.ToList();
+            /*if (Visibility == Visibility.Visible)
+                _services = SessionOneEntities.GetContext().Service.ToList();*/
         }
     }
 }

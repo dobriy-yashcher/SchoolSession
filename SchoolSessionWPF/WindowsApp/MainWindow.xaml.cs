@@ -26,7 +26,7 @@ namespace SchoolSessionWPF
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new ServicesPage());
+            MainFrame.Navigate(new MainPage());
 
             Manager.MainFrame = MainFrame;
         }
@@ -40,22 +40,21 @@ namespace SchoolSessionWPF
 
         private void SetStateNavButtons()
         {
-            if (Manager.MainFrame.CanGoBack)
-            {
-                BtnBack.Visibility = Visibility.Visible;
-                tbRecordsCount.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                BtnBack.Visibility = Visibility.Collapsed;
-                tbRecordsCount.Visibility = Visibility.Visible;
-            }
+            // Отображение кнопки Назад
+            if (Manager.MainFrame.CanGoBack) BtnBack.Visibility = Visibility.Visible;    
+            else BtnBack.Visibility = Visibility.Collapsed;
 
+            // Отображение количества найденных услуг
+            if (Manager.MainFrame.Content is ServicesPage) tbRecordsCount.Visibility = Visibility.Visible;
+            else tbRecordsCount.Visibility = Visibility.Collapsed;
+
+            // Отображение кнопки Сохранить
             if (Manager.MainFrame.Content is ServiceAddEditPage) BtnSave.Visibility = Visibility.Visible;
             else BtnSave.Visibility = Visibility.Collapsed;
 
-            if (!Manager.IsAdminMode || Manager.MainFrame.CanGoBack) BtnAddService.Visibility = Visibility.Collapsed;
-            else BtnAddService.Visibility = Visibility.Visible;
+            // Отображение кнопки Добавить (на странице со списком услуг)
+            if (Manager.IsAdminMode && Manager.MainFrame.Content is ServicesPage) BtnAddService.Visibility = Visibility.Visible;
+            else BtnAddService.Visibility = Visibility.Collapsed;
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)

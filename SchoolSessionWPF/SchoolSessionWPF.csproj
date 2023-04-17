@@ -83,6 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="PagesApp\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PagesApp\ServiceAddEditPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,6 +155,9 @@
     <Compile Include="Core\FilterMethods.cs" />
     <Compile Include="Core\Manager.cs" />
     <Compile Include="Core\SortingMethods.cs" />
+    <Compile Include="PagesApp\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PagesApp\ServiceAddEditPage.xaml.cs">
       <DependentUpon>ServiceAddEditPage.xaml</DependentUpon>
     </Compile>
