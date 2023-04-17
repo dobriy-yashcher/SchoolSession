@@ -174,7 +174,7 @@ namespace SchoolSessionWPF.PagesApp
         private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             /*if (Visibility == Visibility.Visible)
-                _services = SessionOneEntities.GetContext().Service.ToList();*/
+                _services = SessionOneEntities.GetContext().Service.ToList();*/   
         }
     }
 }
