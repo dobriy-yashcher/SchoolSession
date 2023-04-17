@@ -32,7 +32,7 @@ namespace SchoolSessionWPF
         }
 
         private void MainFrame_ContentRendered(object sender, EventArgs e)
-        {                        
+        {
             SetStateNavButtons();
 
             tbRecordsCount.Text = $"{Manager.FindRecordsCount} из {Manager.AllRecordsCount}";
@@ -54,27 +54,44 @@ namespace SchoolSessionWPF
             if (Manager.MainFrame.Content is ServiceAddEditPage) BtnSave.Visibility = Visibility.Visible;
             else BtnSave.Visibility = Visibility.Collapsed;
 
-            if (!Manager.IsAdminMode || Manager.MainFrame.CanGoBack) BtnAddService.Visibility = Visibility.Collapsed; 
+            if (!Manager.IsAdminMode || Manager.MainFrame.CanGoBack) BtnAddService.Visibility = Visibility.Collapsed;
             else BtnAddService.Visibility = Visibility.Visible;
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
+            var maxDurationTimeInSeconds = 60 * 60 * 4;
+
             var service = ServiceAddEditPage.GetCurrentService();
             StringBuilder errors = new StringBuilder();
+
+            bool isAddService = service.ID == 0 ? true : false;
 
             // Проверка данных
             if (string.IsNullOrWhiteSpace(service.Title))
                 errors.AppendLine("Введите название услуги");
             if (service.Cost <= 0)
-                errors.AppendLine("Укажите стоимость");
+                errors.AppendLine("Укажите корректную стоимость");
             if (service.DurationInSeconds <= 0)
                 errors.AppendLine("Укажите длительность услуги");    
+            if (service.DurationInSeconds > maxDurationTimeInSeconds)
+                errors.AppendLine($"Длительность услуги не может превышать {maxDurationTimeInSeconds / 60 / 60} часа");
             if (service.Discount < 0)
-                errors.AppendLine("Скидка не может принимать отрицательное значение");  
+                errors.AppendLine("Скидка не может принимать отрицательное значение");
             if (service.Discount > 100)
                 errors.AppendLine("Скидка не может принимать значение больше 100");
 
+            // Проверка (при добавление новой услуги), существует ли услуга с таким названием
+            if (isAddService)
+            {                                                                                             
+                var checkTitle = SessionOneEntities.GetContext().Service
+                    .Where(x => x.Title.ToLower()
+                    .Contains(service.Title.ToLower()))
+                    .ToList();
+
+                if (checkTitle.Count > 0)
+                    errors.AppendLine("Услуга с таким названием уже существует");
+            }
 
             if (errors.Length > 0)
             {
@@ -83,13 +100,14 @@ namespace SchoolSessionWPF
             }
 
             // Определение текущей операции (добавление/редактирование)
-            if (service.ID == 0)
+            if (isAddService)
                 SessionOneEntities.GetContext().Service.Add(service);
 
             try
             {
-                SessionOneEntities.GetContext().SaveChanges();                                                             
+                SessionOneEntities.GetContext().SaveChanges();
                 MessageBox.Show("Информация сохранена!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
+                Manager.MainFrame.GoBack();
             }
             catch (Exception ex)
             {

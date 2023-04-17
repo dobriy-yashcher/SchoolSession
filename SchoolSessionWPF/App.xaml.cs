@@ -15,6 +15,5 @@ namespace SchoolSessionWPF
     /// </summary>
     public partial class App : Application
     {
-        public static SessionOneEntities Connection = new SessionOneEntities();
     }
 }

@@ -169,5 +169,11 @@ namespace SchoolSessionWPF.PagesApp
             lvServices.ItemsSource = _services;
             FilterAndSort();
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateSource();
+            //lvServices.ItemsSource = SessionOneEntities.GetContext().Service.ToList();
+        }
     }
 }

@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:SchoolSessionWPF.PagesApp"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ServiceAddEditPage">
+      Title="ServiceAddEditPage" Unloaded="Page_Unloaded">
 
     <Grid>
         <Grid.RowDefinitions>

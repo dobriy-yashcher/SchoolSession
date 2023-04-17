@@ -57,5 +57,13 @@ namespace SchoolSessionWPF.PagesApp
                 GridID.IsEnabled = true;
             }
         }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (_isEdit)
+            {
+                SessionOneEntities.GetContext().Entry(_currentService).Reload();
+            }
+        }
     }
 }

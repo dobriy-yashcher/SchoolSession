@@ -42,5 +42,9 @@
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="FontFamily" Value="Comic Sans MS"/>
         </Style>
+        <Style TargetType="ListView">
+            <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+            <Setter Property="FontFamily" Value="Comic Sans MS"/>
+        </Style>
     </Application.Resources>
 </Application>
