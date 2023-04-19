@@ -13,23 +13,26 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3*"/>
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
 
-        <TextBlock Grid.ColumnSpan="2" 
+        <!--<TextBlock Grid.ColumnSpan="2" 
                    Text="Добро пожаловать!"
-                   FontSize="50"/>
+                   FontSize="50"/>-->
 
         <Button x:Name="btnServices" 
                 Grid.Row="1" Grid.Column="0"
+                Height="auto" Width="auto"
                 Content="Список услуг"
-                Click="btnServices_Click"/>
+                Click="btnServices_Click"
+                Margin="50"/>
         <Button x:Name="btnClientServices"
                 Grid.Row="1" Grid.Column="1"
+                Height="auto" Width="auto"
                 Content="Ближайшие записи"
-                Width="190"
-                Click="btnClientServices_Click"/>
+                Click="btnClientServices_Click"
+                Margin="50"/>
     </Grid>
 </Page>

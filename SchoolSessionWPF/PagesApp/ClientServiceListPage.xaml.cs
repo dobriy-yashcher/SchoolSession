@@ -1,5 +1,4 @@
-﻿using SchoolSessionWPF.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,23 +16,13 @@ using System.Windows.Shapes;
 namespace SchoolSessionWPF.PagesApp
 {
     /// <summary>
-    /// Interaction logic for MainPage.xaml
+    /// Interaction logic for ClientServiceListPage.xaml
     /// </summary>
-    public partial class MainPage : Page
+    public partial class ClientServiceListPage : Page
     {
-        public MainPage()
+        public ClientServiceListPage()
         {
             InitializeComponent();
-        }
-
-        private void btnServices_Click(object sender, RoutedEventArgs e)
-        {               
-            Manager.MainFrame.Navigate(new ServicesPage());
-        }
-
-        private void btnClientServices_Click(object sender, RoutedEventArgs e)
-        {
-            Manager.MainFrame.Navigate(new ClientServiceListPage()); // temp 
         }
     }
 }

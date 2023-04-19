@@ -1,4 +1,4 @@
-﻿using SchoolSessionWPF.Core;
+﻿using SchoolSessionWPF.ADOApp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,23 +17,29 @@ using System.Windows.Shapes;
 namespace SchoolSessionWPF.PagesApp
 {
     /// <summary>
-    /// Interaction logic for MainPage.xaml
+    /// Interaction logic for ClientServiceAddPage.xaml
     /// </summary>
-    public partial class MainPage : Page
+    public partial class ClientServiceAddPage : Page
     {
-        public MainPage()
+        private Service _service = new Service();
+        private TimeSpan _startTime;
+
+        public ClientServiceAddPage(Service service)
         {
             InitializeComponent();
+
+            _service = service;
+            DataContext = _service;
         }
 
-        private void btnServices_Click(object sender, RoutedEventArgs e)
-        {               
-            Manager.MainFrame.Navigate(new ServicesPage());
-        }
-
-        private void btnClientServices_Click(object sender, RoutedEventArgs e)
+        private void tbTimeStart_LostFocus(object sender, RoutedEventArgs e)
         {
-            Manager.MainFrame.Navigate(new ClientServiceListPage()); // temp 
+
+        }
+
+        private void SaveBtnClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

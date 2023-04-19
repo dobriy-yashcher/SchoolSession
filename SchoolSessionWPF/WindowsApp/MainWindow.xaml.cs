@@ -105,6 +105,7 @@ namespace SchoolSessionWPF
             try
             {
                 SessionOneEntities.GetContext().SaveChanges();
+                SessionOneEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
                 MessageBox.Show("Информация сохранена!", "Успешно", MessageBoxButton.OK, MessageBoxImage.Information);
                 Manager.MainFrame.GoBack();
             }

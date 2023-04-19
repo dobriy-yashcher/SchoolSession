@@ -171,10 +171,11 @@ namespace SchoolSessionWPF.PagesApp
             FilterAndSort();
         }
 
-        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void lvServices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            /*if (Visibility == Visibility.Visible)
-                _services = SessionOneEntities.GetContext().Service.ToList();*/   
+            if (!Manager.IsAdminMode) return;
+
+            NavigationService.Navigate(new ClientServiceAddPage((Service)lvServices.SelectedItem));
         }
     }
 }
